@@ -1,0 +1,14 @@
+---
+- name: Add OpenStack Servers to in memory inventory
+  hosts: control_node
+  gather_facts: true
+  become: false
+  roles:
+    - openstack_inmemory_inventory
+
+- name: Patch Openstack servers for DNS configure
+  hosts: load_balancers,app_servers,database_servers
+  become: true
+  roles:
+    - dns_manage
+

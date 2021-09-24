@@ -1,0 +1,11 @@
+---
+- name: Create OpenStack Servers
+  hosts: control_node
+  gather_facts: false
+  become: false
+
+  roles:
+    - role: openstack_servers
+      vars:
+        openstack_server_state: present
+

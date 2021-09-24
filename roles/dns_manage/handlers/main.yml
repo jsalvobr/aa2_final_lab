@@ -1,0 +1,6 @@
+---
+# handlers file for dns_manage
+- name: Restart NetworkManager
+  service:
+    name: NetworkManager
+    state: restarted

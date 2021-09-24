@@ -1,0 +1,40 @@
+---
+# tasks file for openstack_inmemory_inventory
+
+- name: Generate inmemory inventory
+  
+  block:
+    - name: Fetch Instance Info
+      os_server_info:
+        server: "{{ openstack_name_wildcard }}"
+      register: r_instances
+
+    - name: Add host(s) to inventory
+      add_host:
+        name: "{{ __instance.private_v4 }}"
+        group:
+          - "{{ __instance.metadata.AnsibleGroup }}"
+      loop: "{{ r_instances.openstack_servers }}"
+      loop_control:
+        loop_var: __instance
+
+
+    - name: Output the in-memory inventory
+      
+      block:
+      - name: Print hosts to STDOUT
+        debug:
+          msg:
+            - "name: {{ __instance.private_v4 }}"
+            - "group: {{ __instance.metadata.AnsibleGroup }}"
+        loop: "{{ r_instances.openstack_servers }}"
+        loop_control:
+          loop_var: __instance
+
+      - name: Set AnsibleGroup value
+        set_fact:
+          AnsibleGroup: "{{ __instance.metadata.AnsibleGroup }}"
+        loop: "{{ r_instances.openstack_servers }}"
+        loop_control:
+          loop_var: __instance
+
