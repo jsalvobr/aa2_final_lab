@@ -1,0 +1,7 @@
+---
+- name: install and configure postgres Database
+  hosts: database_servers
+  become: true
+  gather_facts: false
+  roles:
+    - postgresql 

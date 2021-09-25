@@ -13,3 +13,16 @@ postgres_12_bin_path: /usr/pgsql-12/bin
 postgres_service: postgresql-12.service
 postgres_port: 5432
 postgres_user: postgres
+
+postgres_users:
+  - name: flask
+    password: redhat
+    database: flask_db
+    state: present
+    priv: ALL
+
+postgres_databases:
+  - name: flask_db
+    owner: flask
+  - name: books_store
+    owner: flask
